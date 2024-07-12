@@ -2,10 +2,16 @@ import React, { useState } from "react"
 import { signInWithEmailAndPassword } from "firebase/auth"
 import { auth } from "../../lib/firebase"
 import { toast } from "react-toastify"
+import SignUp from "../signUp/signUp"
 
 export default function Login(){
 
     const [loading, setLoading] = useState(false)
+    const [login, setLogin] = useState(true)
+
+    const handleGoToSignUp = () => {
+        setLogin(false)
+    }
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -29,13 +35,14 @@ export default function Login(){
     }
 
     return(
+        login ?
+
         <>
             <h1>Login Page</h1>
-            <form onSubmit={handleLogin}>
             <input type="text" placeholder="Email" name="email" />
             <input type="password" placeholder="Password" name="password" />
-            <button disabled={loading}>{loading ? "Loading" : "Sign In"}</button>
-            </form>
-        </>
+            <button disabled={loading} onClick={handleLogin}>{loading ? "Loading" : "Sign In"}</button>
+            <button onClick={handleGoToSignUp}>Not a user? Sign up</button>
+        </> : <SignUp / >
     )
 }
